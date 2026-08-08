@@ -1,0 +1,292 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+
+  <title>Sanatan Sankalan</title>
+
+  <style>
+
+    #loginpage{
+      display:flex;
+      width:100%;
+      flex-direction:column;
+      padding:15px;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      margin:0px;
+      gap:10px;
+      height:100vh;
+      box-sizing:border-box;
+
+      background:linear-gradient(
+        to bottom,
+        #FFF8E1,
+        #FFE0B2,
+        #FFCC80
+      );
+    }
+
+    #apptitle{
+      text-align:center;
+      font-size:30px;
+      font-weight:bold;
+      font-family:"Noto Sans Devanagari", sans-serif;
+
+      background:linear-gradient(
+        90deg,
+        #FF6F00,
+        #FF9800,
+        #FF6F00
+      );
+
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+
+      letter-spacing:1px;
+      margin:20px;
+    }
+
+    #username,
+    #mobile{
+      width:100%;
+      height:45px;
+      padding:15px;
+
+      border:1px solid #ccc;
+      border-radius:15px;
+
+      font-size:16px;
+      outline:none;
+
+      box-sizing:border-box;
+      text-align:center;
+    }
+
+    #submitbtn{
+      width:100%;
+      height:48px;
+
+      border:none;
+      border-radius:12px;
+
+      background:linear-gradient(
+        90deg,
+        #FF6F00,
+        #FF9800
+      );
+
+      color:white;
+
+      font-size:18px;
+      font-weight:bold;
+
+      cursor:pointer;
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <div id="loginpage">
+
+    <h1 id="apptitle">
+      सनातन संकलन में आपका स्वागत है
+    </h1>
+
+    <input
+      type="text"
+      id="username"
+      placeholder="Enter user name"
+    >
+
+    <input
+      type="tel"
+      id="mobile"
+      placeholder="Enter mobile number"
+    >
+
+    <button
+      id="submitbtn"
+      onclick="signupnow()">
+      Submit
+    </button>
+
+  </div>
+
+
+  <!-- Firebase Script -->
+  <script type="module">
+
+    import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+
+    import {
+      getDatabase,
+      ref,
+      push,
+      set
+    }
+    from "https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js";
+
+
+    // Firebase Config
+
+    const firebaseConfig = {
+
+      apiKey: "AIzaSyCDDlfl3qL5tTAGUz-ehbbWunTZDqu34v",
+
+      authDomain: "bhaktiras-69845.firebaseapp.com",
+
+      databaseURL:
+      "https://bhaktiras-69845-default-rtdb.firebaseio.com/",
+
+      projectId: "bhaktiras-69845",
+
+      storageBucket:
+      "bhaktiras-69845.firebasestorage.app",
+
+      messagingSenderId: "463400824204",
+
+      appId:
+      "1:463400824204:web:aefee85aae4a605fa23aa9"
+
+    };
+
+
+    // Firebase initialize
+
+    const app = initializeApp(firebaseConfig);
+
+
+    // Database
+
+    const database = getDatabase(app);
+
+
+    // Signup Function
+
+    window.signupnow = async function(){
+
+      console.log("signupnow called");
+
+
+      let name =
+        document.getElementById("username").value.trim();
+
+      let phone =
+        document.getElementById("mobile").value.trim();
+
+
+      console.log("Name:", name);
+      console.log("Phone:", phone);
+
+
+      // Name check
+
+      if(name === ""){
+
+        alert("Enter user name");
+
+        return;
+
+      }
+
+
+      // Mobile check
+
+      if(phone === ""){
+
+        alert("Enter mobile number");
+
+        return;
+
+      }
+
+
+      // Mobile validation
+
+      if(phone.length !== 10){
+
+        alert("Mobile Number must be 10 digits");
+
+        return;
+
+      }
+
+
+      try{
+
+        console.log("Saving to Firebase...");
+
+
+        // New Firebase ID
+
+        const userRef =
+          push(ref(database, "users"));
+
+
+        // Save
+
+        await set(userRef, {
+
+          name: name,
+
+          mobile: phone,
+
+          time: new Date().toISOString(),
+
+          appVersion: "1.0.0"
+
+        });
+
+
+        console.log("Firebase save successful");
+
+
+        // LocalStorage
+
+        localStorage.setItem(
+          "name",
+          name
+        );
+
+        localStorage.setItem(
+          "phone",
+          phone
+        );
+
+
+        alert("Signup Successful");
+
+
+      }
+
+      catch(error){
+
+        console.error(
+          "Firebase Error:",
+          error
+        );
+
+        alert(
+          "Firebase Error:\n" +
+          error.message
+        );
+
+      }
+
+    };
+
+
+  </script>
+
+</body>
+
+  </html>
