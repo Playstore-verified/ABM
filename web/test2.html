@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+               maximum-scale=1.0,user-scalable=no">
+
+<title>सत्यानुसरण</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    -webkit-user-select:none;
+    user-select:none;
+}
+
+body{
+    margin:0;
+    padding:15px;
+    background:linear-gradient(135deg,#fff8e8,#ffe0b2);
+    font-family:"Noto Serif Devanagari",serif;
+}
+
+.card{
+    max-width:500px;
+    margin:15px auto;
+    background:#fffdf7;
+    border-radius:24px;
+    padding:20px;
+    box-shadow:0 8px 25px rgba(0,0,0,.18);
+    border:2px solid #ffb74d;
+}
+
+.poster{
+    background:linear-gradient(145deg,#fff8e1,#ffe0b2);
+    border-radius:20px;
+    padding:25px 20px;
+    text-align:center;
+    border:2px solid #ef6c00;
+}
+
+.quote{
+    font-size:22px;
+    line-height:1.8;
+    font-weight:bold;
+    color:#4e342e;
+}
+
+.author{
+    margin-top:18px;
+    font-size:17px;
+    color:#e65100;
+    font-weight:bold;
+}
+
+.share{
+    margin-top:20px;
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    border:none;
+    background:#e65100;
+    color:white;
+    font-size:25px;
+    box-shadow:0 5px 12px rgba(0,0,0,.25);
+}
+
+.share:active{
+    transform:scale(.92);
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="poster" id="poster">
+
+        <div class="quote">
+            सर्वप्रथम हमें दुर्बलता के विरुद्ध युद्ध करना होगा।
+            साहसी बनना होगा, वीर बनना होगा।
+        </div>
+
+        <div class="author">
+            — श्रीश्रीठाकुर
+        </div>
+
+        <button class="share" onclick="sharePoster()">
+            ↗
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/*
+=================================================
+  NIOTRON COMMUNICATION
+=================================================
+*/
+
+function sendToNiotron(data){
+
+    var json = JSON.stringify(data);
+
+    /*
+      सबसे पहले Niotron WebViewString interface
+    */
+
+    try{
+        if(window.AppInventor){
+            window.AppInventor.setWebViewString(json);
+            return;
+        }
+    }catch(e){}
+
+    /*
+      कुछ WebView implementations में अलग bridge
+    */
+
+    try{
+        if(window.Niotron){
+            window.Niotron.setWebViewString(json);
+            return;
+        }
+    }catch(e){}
+
+    /*
+      Debug के लिए
+    */
+
+    console.log("NIOTRON_JSON:",json);
+}
+
+
+/*
+=================================================
+  SHARE POSTER
+=================================================
+*/
+
+function sharePoster(){
+
+    /*
+      अभी image Base64 generate करने के बजाय
+      Niotron को action भेजेंगे।
+    */
+
+    var poster=document.getElementById("poster");
+
+    /*
+      वास्तविक app में यहाँ poster का Base64
+      भेजा जा सकता है।
+    */
+
+    var image="";
+
+    var data={
+        "ACTION":"SHARE_POSTER",
+        "IMAGE":image,
+        "TEXT":"सत्यानुसरण — श्रीश्रीठाकुर"
+    };
+
+    sendToNiotron(data);
+}
+
+
+/*
+=================================================
+  TEST BUTTON
+=================================================
+*/
+
+function testNiotron(){
+
+    sendToNiotron({
+        "ACTION":"TEST",
+        "MESSAGE":"Niotron communication working"
+    });
+
+}
+
+</script>
+
+</body>
+  </html>
