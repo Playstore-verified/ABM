@@ -162,6 +162,7 @@ body{
     <!-- SHARE -->
 
     <button
+        onclick="testNiotron()"
         id="shareButton"
         class="share">
 
@@ -178,7 +179,30 @@ body{
 
 
 <script>
+function testNiotron(){
 
+    var data = {
+        ACTION: "SHARE_POSTER",
+        IMAGE: "TEST_IMAGE_123",
+        TEXT: "सत्यानुसरण — श्रीश्रीठाकुर"
+    };
+
+    var json = JSON.stringify(data);
+
+    if (
+        window.Niotron &&
+        typeof window.Niotron.setWebViewString === "function"
+    ) {
+
+        window.Niotron.setWebViewString(json);
+
+    } else {
+
+        alert("Niotron JavaScript bridge नहीं मिला");
+
+    }
+}
+/* end on button onclick*/
 /* =====================================================
    NIOTRON
 ===================================================== */
