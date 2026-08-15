@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1.0,
+maximum-scale=1.0,
+user-scalable=no">
+
+<title>सत्यानुसरण — वचन Poster</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+    -webkit-user-select:none;
+    user-select:none;
+}
+
+html,body{
+    margin:0;
+    padding:0;
+    width:100%;
+    min-height:100%;
+}
+
+body{
+
+    padding:15px 10px 35px;
+
+    font-family:
+    "Noto Serif Devanagari",
+    "Nirmala UI",
+    serif;
+
+    background:
+    radial-gradient(
+        circle at 10% 10%,
+        rgba(255,255,255,.95),
+        transparent 28%
+    ),
+
+    radial-gradient(
+        circle at 90% 90%,
+        rgba(255,183,77,.25),
+        transparent 32%
+    ),
+
+    linear-gradient(
+        145deg,
+        #fffdf7,
+        #fff3dc,
+        #ffe0b2
+    );
+
+}
+
+
+/* =========================
+   GRID
+========================= */
+
+.cards{
+
+    width:100%;
+    max-width:1000px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(300px,1fr));
+
+    gap:25px;
+
+}
+
+
+/* =========================
+   POSTER CARD
+========================= */
+
+.poster{
+
+    width:100%;
+
+    aspect-ratio:1 / 1;
+
+    position:relative;
+
+    overflow:hidden;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    padding:42px 35px;
+
+
+    background:
+
+    radial-gradient(
+        circle at 18% 12%,
+        rgba(255,255,255,.98),
+        transparent 27%
+    ),
+
+    radial-gradient(
+        circle at 88% 88%,
+        rgba(255,183,77,.22),
+        transparent 30%
+    ),
+
+    linear-gradient(
+        145deg,
+        #fffef9,
+        #fff4df
+    );
+
+
+    border:5px solid #8d3b00;
+
+    border-radius:30px;
+
+
+    box-shadow:
+
+    0 18px 45px
+    rgba(78,52,46,.25);
+
+}
+
+
+/* =========================
+   INNER BORDER
+========================= */
+
+.poster::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:13px;
+
+    border:2px solid #d68b00;
+
+    border-radius:20px;
+
+    pointer-events:none;
+
+}
+
+
+/* =========================
+   DECORATION
+========================= */
+
+.poster::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+    height:180px;
+
+    right:-90px;
+    top:-90px;
+
+    border-radius:50%;
+
+    background:
+    rgba(255,183,77,.16);
+
+    pointer-events:none;
+
+}
+
+
+/* =========================
+   SHARE ICON
+========================= */
+
+.share-icon{
+
+    position:absolute;
+
+    z-index:20;
+
+    top:18px;
+    right:18px;
+
+    width:44px;
+    height:44px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    border:0;
+
+    background:
+    linear-gradient(
+        135deg,
+        #ff9800,
+        #e65100
+    );
+
+    color:#fff;
+
+    font-size:21px;
+
+    box-shadow:
+    0 6px 16px
+    rgba(230,81,0,.30);
+
+    cursor:pointer;
+
+}
+
+
+/*
+   Screenshot के समय
+   icon hide होगा
+*/
+
+.poster.generating .share-icon{
+
+    display:none;
+
+}
+
+
+/* =========================
+   LABEL
+========================= */
+
+.label{
+
+    position:relative;
+
+    z-index:2;
+
+    margin-bottom:20px;
+
+    padding:7px 17px;
+
+    border-radius:30px;
+
+    background:
+    rgba(255,152,0,.12);
+
+    border:
+    1px solid
+    rgba(230,81,0,.25);
+
+    color:#e65100;
+
+    font-size:14px;
+
+    font-weight:bold;
+
+}
+
+
+/* =========================
+   QUOTE
+========================= */
+
+.quote{
+
+    position:relative;
+
+    z-index:2;
+
+    margin:0;
+
+    max-width:92%;
+
+    color:#302015;
+
+    font-size:clamp(
+        21px,
+        4.5vw,
+        34px
+    );
+
+    line-height:1.75;
+
+    font-weight:bold;
+
+}
+
+
+/* =========================
+   QUOTE MARK
+========================= */
+
+.quote-mark{
+
+    color:#ef6c00;
+
+    font-size:1.4em;
+
+    line-height:.5;
+
+    vertical-align:-5px;
+
+}
+
+
+/* =========================
+   AUTHOR
+========================= */
+
+.author{
+
+    position:relative;
+
+    z-index:2;
+
+    margin-top:24px;
+
+    padding-top:12px;
+
+    border-top:
+    1px solid
+    rgba(121,85,72,.25);
+
+    color:#9b3d00;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+}
+
+
+/* =========================
+   WATERMARK
+========================= */
+
+.watermark{
+
+    position:absolute;
+
+    z-index:2;
+
+    left:0;
+    right:0;
+
+    bottom:17px;
+
+    text-align:center;
+
+    color:
+    rgba(121,85,72,.28);
+
+    font-family:Arial,sans-serif;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+    letter-spacing:1px;
+
+}
+
+
+/* =========================
+   SMALL SCREEN
+========================= */
+
+@media(max-width:650px){
+
+    .cards{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .poster{
+
+        width:94vw;
+
+        max-width:520px;
+
+        margin:auto;
+
+        padding:38px 28px;
+
+    }
+
+    .quote{
+
+        font-size:
+        clamp(
+            19px,
+            5vw,
+            29px
+        );
+
+    }
+
+}
+
+
+/* =========================
+   VERY SMALL
+========================= */
+
+@media(max-width:380px){
+
+    .poster{
+
+        width:95vw;
+
+        padding:32px 23px;
+
+        border-radius:26px;
+
+    }
+
+    .quote{
+
+        font-size:18px;
+
+        line-height:1.75;
+
+    }
+
+    .author{
+
+        font-size:16px;
+
+    }
+
+    .share-icon{
+
+        width:40px;
+        height:40px;
+
+        top:15px;
+        right:15px;
+
+        font-size:19px;
+
+    }
+
+}
+
+</style>
+
+
+<!-- =========================
+     HTML2CANVAS
+========================= -->
+
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+</script>
+
+</head>
+
+
+<body>
+
+
+<div class="cards">
+
+
+<!-- =========================
+     CARD 1
+========================= -->
+
+<div
+class="poster"
+data-text="सर्वप्रथम हमें दुर्बलता के विरुद्ध युद्ध करना होगा। साहसी बनना होगा, वीर बनना होगा।">
+
+    <button
+    class="share-icon"
+    onclick="shareCard(this)">
+        ↗
+    </button>
+
+
+    <div class="label">
+        🌿 सत्यानुसरण
+    </div>
+
+
+    <p class="quote">
+
+        <span class="quote-mark">“</span>
+
+        सर्वप्रथम हमें दुर्बलता के विरुद्ध
+        युद्ध करना होगा।
+        साहसी बनना होगा,
+        वीर बनना होगा।
+
+        <span class="quote-mark">”</span>
+
+    </p>
+
+
+    <div class="author">
+        — श्री श्री ठाकुर
+    </div>
+
+
+    <div class="watermark">
+        AnukulBhajanMala
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     CARD 2
+========================= -->
+
+<div
+class="poster"
+data-text="चेष्टा न करना ही है दुर्बलता। कुछ करने के लिये प्राणपण से चेष्टा करो।">
+
+    <button
+    class="share-icon"
+    onclick="shareCard(this)">
+        ↗
+    </button>
+
+
+    <div class="label">
+        🔥 चेष्टा
+    </div>
+
+
+    <p class="quote">
+
+        <span class="quote-mark">“</span>
+
+        चेष्टा न करना ही है दुर्बलता।
+        कुछ करने के लिये
+        प्राणपण से चेष्टा करो।
+
+        <span class="quote-mark">”</span>
+
+    </p>
+
+
+    <div class="author">
+        — श्री श्री ठाकुर
+    </div>
+
+
+    <div class="watermark">
+        AnukulBhajanMala
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     CARD 3
+========================= -->
+
+<div
+class="poster"
+data-text="तुम छोड़ो नहीं, वह अम्लान चेष्टा ही तुम्हें मुक्ति की ओर ले जायेगा।">
+
+    <button
+    class="share-icon"
+    onclick="shareCard(this)">
+        ↗
+    </button>
+
+
+    <div class="label">
+        🌱 निरंतर प्रयास
+    </div>
+
+
+    <p class="quote">
+
+        <span class="quote-mark">“</span>
+
+        तुम छोड़ो नहीं,
+        वह अम्लान चेष्टा ही
+        तुम्हें मुक्ति की ओर
+        ले जायेगा।
+
+        <span class="quote-mark">”</span>
+
+    </p>
+
+
+    <div class="author">
+        — श्री श्री ठाकुर
+    </div>
+
+
+    <div class="watermark">
+        AnukulBhajanMala
+    </div>
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =================================
+   SEND TO NIOTRON
+================================= */
+
+function sendToNiotron(data){
+
+    try{
+
+        var json =
+        JSON.stringify(data);
+
+
+        /*
+         * Working Niotron bridge
+         */
+
+        if(
+            window.AppInventor &&
+            typeof
+            window.AppInventor
+            .setWebViewString
+            === "function"
+        ){
+
+            window.AppInventor
+            .setWebViewString(json);
+
+            return true;
+
+        }
+
+
+        /*
+         * Alternative
+         */
+
+        if(
+            window.Niotron &&
+            typeof
+            window.Niotron
+            .setWebViewString
+            === "function"
+        ){
+
+            window.Niotron
+            .setWebViewString(json);
+
+            return true;
+
+        }
+
+
+        return false;
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+        return false;
+
+    }
+
+}
+
+
+/* =================================
+   SHARE SELECTED CARD
+================================= */
+
+async function shareCard(button){
+
+    /*
+     * जिस button पर click हुआ
+     * उसी का poster खोजें
+     */
+
+    var poster =
+    button.closest(".poster");
+
+
+    if(!poster){
+
+        return;
+
+    }
+
+
+    try{
+
+        /*
+         * Generating mode
+         *
+         * इससे share icon
+         * screenshot में नहीं आएगा
+         */
+
+        poster.classList.add(
+            "generating"
+        );
+
+
+        /*
+         * थोड़ा wait
+         *
+         * ताकि icon वास्तव में
+         * hide हो जाए
+         */
+
+        await new Promise(
+            function(resolve){
+
+                setTimeout(
+                    resolve,
+                    100
+                );
+
+            }
+        );
+
+
+        /*
+         * html2canvas
+         */
+
+        var canvas =
+        await html2canvas(
+
+            poster,
+
+            {
+
+                /*
+                 * Niotron में
+                 * scale 2 रखें
+                 */
+
+                scale:2,
+
+                backgroundColor:
+                "#fffef9",
+
+                useCORS:true,
+
+                allowTaint:false,
+
+                logging:false,
+
+                imageTimeout:15000
+
+            }
+
+        );
+
+
+        /*
+         * JPEG
+         */
+
+        var dataURL =
+        canvas.toDataURL(
+            "image/jpeg",
+            0.95
+        );
+
+
+        /*
+         * केवल Base64
+         */
+
+        var base64 =
+        dataURL.replace(
+            /^data:image\/jpeg;base64,/,
+            ""
+        );
+
+
+        /*
+         * Card का original text
+         */
+
+        var text =
+        poster.getAttribute(
+            "data-text"
+        );
+
+
+        /*
+         * JSON
+         */
+
+        var data = {
+
+            ACTION:
+            "SHARE_POSTER",
+
+            IMAGE:
+            base64,
+
+            TEXT:
+            text
+
+        };
+
+
+        /*
+         * Niotron
+         */
+
+        sendToNiotron(data);
+
+
+    }
+
+    catch(error){
+
+        console.log(
+            "Poster Error:",
+            error
+        );
+
+
+        sendToNiotron({
+
+            ACTION:
+            "ERROR",
+
+            IMAGE:
+            "",
+
+            TEXT:
+            String(error)
+
+        });
+
+    }
+
+
+    finally{
+
+        /*
+         * वापस icon दिखा दें
+         */
+
+        poster.classList.remove(
+            "generating"
+        );
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+  </html>
