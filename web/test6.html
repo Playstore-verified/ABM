@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1.0,
+maximum-scale=1.0,
+user-scalable=no">
+
+<title>सत्यानुसरण Poster</title>
+
+
+<style>
+
+*{
+    box-sizing:border-box;
+    -webkit-user-select:none;
+    user-select:none;
+}
+
+body{
+
+    margin:0;
+
+    padding:15px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #fff8e7,
+        #ffe0b2
+    );
+
+    font-family:
+    "Noto Serif Devanagari",
+    "Nirmala UI",
+    serif;
+
+}
+
+
+.poster{
+
+    width:100%;
+
+    max-width:600px;
+
+    aspect-ratio:1 / 1;
+
+    margin:auto;
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:
+    linear-gradient(
+        145deg,
+        #fffdf5,
+        #fff0d0
+    );
+
+    border:5px solid #8d3b00;
+
+    border-radius:28px;
+
+    padding:35px 25px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    box-shadow:
+    0 10px 30px
+    rgba(0,0,0,.25);
+
+}
+
+
+.poster:before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:12px;
+
+    border:2px solid #d68b00;
+
+    border-radius:20px;
+
+    pointer-events:none;
+
+}
+
+
+.quote{
+
+    position:relative;
+
+    z-index:2;
+
+    text-align:center;
+
+    font-size:
+    clamp(24px,5vw,42px);
+
+    line-height:1.65;
+
+    font-weight:bold;
+
+    color:#302015;
+
+}
+
+
+.author{
+
+    position:relative;
+
+    z-index:2;
+
+    margin-top:25px;
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    color:#9b3d00;
+
+}
+
+
+.watermark{
+
+    position:absolute;
+
+    bottom:14px;
+
+    left:0;
+
+    right:0;
+
+    text-align:center;
+
+    font-family:Arial,sans-serif;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+    letter-spacing:1px;
+
+    color:rgba(121,85,72,.30);
+
+}
+
+
+.share{
+
+    display:block;
+
+    width:100%;
+
+    max-width:600px;
+
+    margin:18px auto 0;
+
+    padding:15px;
+
+    border:0;
+
+    border-radius:30px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #ff9800,
+        #e65100
+    );
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    box-shadow:
+    0 8px 20px
+    rgba(230,81,0,.25);
+
+}
+
+</style>
+
+
+<!-- html2canvas -->
+
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+</script>
+
+
+</head>
+
+
+<body>
+
+
+<div id="poster" class="poster">
+
+    <div class="quote">
+
+        सर्वप्रथम हमें दुर्बलता के विरुद्ध
+        युद्ध करना होगा। साहसी बनना
+        होगा, वीर बनना होगा।
+
+    </div>
+
+
+    <div class="author">
+
+        — श्रीश्रीठाकुर
+
+    </div>
+
+
+    <div class="watermark">
+
+        AnukulBhajanMala
+
+    </div>
+
+</div>
+
+
+<button
+id="shareButton"
+class="share"
+onclick="sharePoster()">
+
+    ↗️ वचन Poster Share करें
+
+</button>
+
+
+
+<script>
+
+
+/* =================================
+   NIOTRON
+================================= */
+
+function sendToNiotron(data){
+
+    try{
+
+        var json =
+            JSON.stringify(data);
+
+        console.log(
+            "Niotron:",
+            json
+        );
+
+
+        if(
+            window.AppInventor &&
+            typeof
+            window.AppInventor
+            .setWebViewString
+            === "function"
+        ){
+
+            window.AppInventor
+            .setWebViewString(json);
+
+            return;
+
+        }
+
+
+        if(
+            window.Niotron &&
+            typeof
+            window.Niotron
+            .setWebViewString
+            === "function"
+        ){
+
+            window.Niotron
+            .setWebViewString(json);
+
+            return;
+
+        }
+
+
+        console.log(
+            "Bridge not found"
+        );
+
+
+    }
+    catch(e){
+
+        console.log(
+            "Send error:",
+            e
+        );
+
+    }
+
+}
+
+
+
+/* =================================
+   SHARE POSTER
+================================= */
+
+async function sharePoster(){
+
+    var button =
+        document.getElementById(
+            "shareButton"
+        );
+
+
+    try{
+
+
+        button.innerText =
+            "⏳ Poster तैयार हो रहा है...";
+
+
+        /*
+         * सबसे महत्वपूर्ण check
+         */
+
+        if(
+            typeof html2canvas
+            !== "function"
+        ){
+
+            sendToNiotron({
+
+                ACTION:"ERROR",
+
+                IMAGE:"",
+
+                TEXT:
+                "html2canvas library load नहीं हुई"
+
+            });
+
+            button.innerText =
+                "❌ Library नहीं मिली";
+
+            return;
+
+        }
+
+
+        /*
+         * Poster
+         */
+
+        var poster =
+            document.getElementById(
+                "poster"
+            );
+
+
+        /*
+         * थोड़ी delay
+         * ताकि WebView layout पूरी तरह render हो
+         */
+
+        await new Promise(
+            function(resolve){
+
+                setTimeout(
+                    resolve,
+                    300
+                );
+
+            }
+        );
+
+
+        /*
+         * Canvas
+         */
+
+        var canvas =
+            await html2canvas(
+
+                poster,
+
+                {
+
+                    scale:3,
+
+                    backgroundColor:
+                    "#fffdf5",
+
+                    useCORS:true,
+
+                    allowTaint:false,
+
+                    logging:false,
+
+                    width:
+                    poster.offsetWidth,
+
+                    height:
+                    poster.offsetHeight
+
+                }
+
+            );
+
+
+        /*
+         * Canvas check
+         */
+
+        if(
+            !canvas ||
+            canvas.width === 0 ||
+            canvas.height === 0
+        ){
+
+            throw new Error(
+                "Canvas generate नहीं हुआ"
+            );
+
+        }
+
+
+        /*
+         * Base64
+         */
+
+        var dataURL =
+            canvas.toDataURL(
+                "image/jpeg",
+                0.95
+            );
+
+
+        if(
+            !dataURL ||
+            dataURL.indexOf(
+                "data:image"
+            ) !== 0
+        ){
+
+            throw new Error(
+                "Base64 image generate नहीं हुई"
+            );
+
+        }
+
+
+        /*
+         * Prefix हटाएं
+         */
+
+        var base64 =
+            dataURL.substring(
+                dataURL.indexOf(",") + 1
+            );
+
+
+        /*
+         * Final JSON
+         */
+
+        var result = {
+
+            ACTION:
+            "SHARE_POSTER",
+
+            IMAGE:
+            base64,
+
+            TEXT:
+            "सत्यानुसरण — श्रीश्रीठाकुर"
+
+        };
+
+
+        /*
+         * Niotron
+         */
+
+        sendToNiotron(
+            result
+        );
+
+
+        button.innerText =
+            "✅ Poster तैयार है";
+
+
+        setTimeout(
+
+            function(){
+
+                button.innerText =
+                    "↗️ वचन Poster Share करें";
+
+            },
+
+            2000
+
+        );
+
+
+    }
+
+
+    catch(error){
+
+
+        console.log(
+            "Poster Error:",
+            error
+        );
+
+
+        /*
+         * Error Niotron में भेजें
+         */
+
+        sendToNiotron({
+
+            ACTION:
+            "ERROR",
+
+            IMAGE:"",
+
+            TEXT:
+            String(error)
+
+        });
+
+
+        button.innerText =
+            "❌ Error";
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>
