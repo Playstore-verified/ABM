@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+      maximum-scale=1.0, user-scalable=no">
+
+<title>सत्यानुसरण</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+    -webkit-user-select:none;
+    user-select:none;
+}
+
+html,body{
+    margin:0;
+    padding:0;
+    width:100%;
+}
+
+body{
+    padding:15px 10px 35px;
+    font-family:"Noto Serif Devanagari","Nirmala UI",serif;
+
+    background:
+        radial-gradient(circle at 10% 5%,
+            rgba(255,255,255,.95),transparent 28%),
+        radial-gradient(circle at 90% 90%,
+            rgba(255,183,77,.25),transparent 32%),
+        linear-gradient(145deg,#fffdf7,#fff3dc,#ffe0b2);
+}
+
+
+/* =========================
+   GRID
+========================= */
+
+.poster-grid{
+    width:100%;
+    max-width:1100px;
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(280px,1fr));
+
+    gap:25px;
+}
+
+
+/* =========================
+   POSTER
+========================= */
+
+.poster{
+
+    width:100%;
+    aspect-ratio:1/1;
+
+    position:relative;
+    overflow:hidden;
+
+    display:flex;
+    flex-direction:column;
+
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+
+    padding:35px 28px;
+
+    border-radius:30px;
+
+    background:
+        radial-gradient(
+            circle at 18% 12%,
+            rgba(255,255,255,.98),
+            transparent 27%
+        ),
+
+        radial-gradient(
+            circle at 88% 88%,
+            rgba(255,183,77,.22),
+            transparent 30%
+        ),
+
+        linear-gradient(
+            145deg,
+            #fffef9,
+            #fff4df
+        );
+
+    border:5px solid #8d3b00;
+
+    box-shadow:
+        0 15px 38px
+        rgba(78,52,46,.22);
+
+    cursor:pointer;
+
+    transition:
+        transform .15s ease,
+        box-shadow .15s ease;
+}
+
+
+/* Inner border */
+
+.poster::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:12px;
+
+    border:2px solid #d68b00;
+
+    border-radius:20px;
+
+    pointer-events:none;
+}
+
+
+/* Decorative corner */
+
+.poster::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:170px;
+    height:170px;
+
+    right:-85px;
+    top:-85px;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,183,77,.17);
+
+    pointer-events:none;
+}
+
+
+/* =========================
+   CLICK EFFECT
+========================= */
+
+.poster:active{
+
+    transform:scale(.975);
+
+    box-shadow:
+        0 8px 20px
+        rgba(78,52,46,.25);
+}
+
+
+/* =========================
+   LABEL
+========================= */
+
+.label{
+
+    position:relative;
+    z-index:2;
+
+    margin-bottom:18px;
+
+    padding:6px 16px;
+
+    border-radius:30px;
+
+    background:
+        rgba(255,152,0,.12);
+
+    border:
+        1px solid
+        rgba(230,81,0,.25);
+
+    color:#e65100;
+
+    font-size:13px;
+
+    font-weight:bold;
+}
+
+
+/* =========================
+   QUOTE
+========================= */
+
+.quote{
+
+    position:relative;
+    z-index:2;
+
+    margin:0;
+
+    max-width:92%;
+
+    color:#302015;
+
+    font-size:
+        clamp(19px,4vw,28px);
+
+    line-height:1.8;
+
+    font-weight:bold;
+}
+
+
+/* quotation */
+
+.quote-mark{
+
+    color:#ef6c00;
+
+    font-size:1.35em;
+
+    vertical-align:-5px;
+}
+
+
+/* =========================
+   AUTHOR
+========================= */
+
+.author{
+
+    position:relative;
+    z-index:2;
+
+    margin-top:20px;
+
+    padding-top:10px;
+
+    border-top:
+        1px solid
+        rgba(121,85,72,.22);
+
+    color:#9b3d00;
+
+    font-size:15px;
+
+    font-weight:bold;
+}
+
+
+/* =========================
+   WATERMARK
+========================= */
+
+.watermark{
+
+    position:absolute;
+
+    z-index:2;
+
+    bottom:14px;
+
+    left:0;
+    right:0;
+
+    text-align:center;
+
+    color:
+        rgba(121,85,72,.28);
+
+    font-family:Arial,sans-serif;
+
+    font-size:11px;
+
+    font-weight:bold;
+
+    letter-spacing:1px;
+}
+
+
+/* =========================
+   SHARE STATUS
+========================= */
+
+#status{
+
+    position:fixed;
+
+    left:50%;
+    bottom:18px;
+
+    transform:translateX(-50%);
+
+    z-index:100;
+
+    padding:10px 20px;
+
+    border-radius:25px;
+
+    background:
+        rgba(60,40,30,.92);
+
+    color:white;
+
+    font-family:Arial,sans-serif;
+
+    font-size:14px;
+
+    display:none;
+}
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+</head>
+
+<body>
+
+
+<div class="poster-grid">
+
+
+    <!-- =====================
+         POSTER 1
+    ====================== -->
+
+    <div
+        class="poster"
+        data-text="सर्वप्रथम हमें दुर्बलता के विरुद्ध युद्ध करना होगा। साहसी बनना होगा, वीर बनना होगा।"
+        onclick="sharePoster(this)"
+    >
+
+        <div class="label">
+            🌿 सत्यानुसरण
+        </div>
+
+        <p class="quote">
+            <span class="quote-mark">“</span>
+
+            सर्वप्रथम हमें दुर्बलता के विरुद्ध
+            युद्ध करना होगा।
+            साहसी बनना होगा,
+            वीर बनना होगा।
+
+            <span class="quote-mark">”</span>
+        </p>
+
+        <div class="author">
+            — श्री श्री ठाकुर
+        </div>
+
+        <div class="watermark">
+            AnukulBhajanMala
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================
+         POSTER 2
+    ====================== -->
+
+    <div
+        class="poster"
+        data-text="चेष्टा न करना ही है दुर्बलता। कुछ करने के लिये प्राणपण से चेष्टा करो।"
+        onclick="sharePoster(this)"
+    >
+
+        <div class="label">
+            🔥 चेष्टा
+        </div>
+
+        <p class="quote">
+            <span class="quote-mark">“</span>
+
+            चेष्टा न करना ही है दुर्बलता।
+            कुछ करने के लिये
+            प्राणपण से चेष्टा करो।
+
+            <span class="quote-mark">”</span>
+        </p>
+
+        <div class="author">
+            — श्री श्री ठाकुर
+        </div>
+
+        <div class="watermark">
+            AnukulBhajanMala
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================
+         POSTER 3
+    ====================== -->
+
+    <div
+        class="poster"
+        data-text="तुम छोड़ो नहीं, वह अम्लान चेष्टा ही तुम्हें मुक्ति की ओर ले जायेगा।"
+        onclick="sharePoster(this)"
+    >
+
+        <div class="label">
+            🌱 निरंतर प्रयास
+        </div>
+
+        <p class="quote">
+            <span class="quote-mark">“</span>
+
+            तुम छोड़ो नहीं,
+            वह अम्लान चेष्टा ही
+            तुम्हें मुक्ति की ओर
+            ले जायेगा।
+
+            <span class="quote-mark">”</span>
+        </p>
+
+        <div class="author">
+            — श्री श्री ठाकुर
+        </div>
+
+        <div class="watermark">
+            AnukulBhajanMala
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================
+         POSTER 4
+    ====================== -->
+
+    <div
+        class="poster"
+        data-text="दुर्बल हृदय में प्रेम-भक्ति का स्थान नहीं।"
+        onclick="sharePoster(this)"
+    >
+
+        <div class="label">
+            ❤️ प्रेम और भक्ति
+        </div>
+
+        <p class="quote">
+            <span class="quote-mark">“</span>
+
+            दुर्बल हृदय में
+            प्रेम-भक्ति का
+            स्थान नहीं।
+
+            <span class="quote-mark">”</span>
+        </p>
+
+        <div class="author">
+            — श्री श्री ठाकुर
+        </div>
+
+        <div class="watermark">
+            AnukulBhajanMala
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="status"></div>
+
+
+<script>
+
+/* =========================================
+   NIOTRON WEBVIEW STRING
+========================================= */
+
+function sendToNiotron(data){
+
+    try{
+
+        var json =
+            JSON.stringify(data);
+
+
+        /*
+         * यही working bridge रखें।
+         */
+
+        if(
+            window.AppInventor &&
+            typeof window.AppInventor.setWebViewString
+            === "function"
+        ){
+
+            window.AppInventor.setWebViewString(json);
+
+            return true;
+        }
+
+
+        /*
+         * Alternative
+         */
+
+        if(
+            window.Niotron &&
+            typeof window.Niotron.setWebViewString
+            === "function"
+        ){
+
+            window.Niotron.setWebViewString(json);
+
+            return true;
+        }
+
+
+        return false;
+
+    }
+    catch(error){
+
+        console.log(error);
+
+        return false;
+    }
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+function showStatus(text){
+
+    var status =
+        document.getElementById("status");
+
+    status.innerText = text;
+
+    status.style.display = "block";
+
+
+    setTimeout(function(){
+
+        status.style.display = "none";
+
+    },2000);
+}
+
+
+/* =========================================
+   SHARE CLICKED POSTER
+========================================= */
+
+async function sharePoster(clickedPoster){
+
+    try{
+
+        showStatus("⏳ Poster तैयार हो रहा है...");
+
+
+        /*
+         * सिर्फ जिस card पर click हुआ
+         * वही element capture होगा।
+         */
+
+        var canvas =
+            await html2canvas(
+                clickedPoster,
+                {
+                    scale:4,
+
+                    backgroundColor:
+                        "#fffef9",
+
+                    useCORS:true,
+
+                    allowTaint:false,
+
+                    logging:false,
+
+                    imageTimeout:15000
+                }
+            );
+
+
+        /*
+         * High quality JPEG
+         */
+
+        var dataURL =
+            canvas.toDataURL(
+                "image/jpeg",
+                0.95
+            );
+
+
+        /*
+         * Prefix remove
+         */
+
+        var base64 =
+            dataURL.replace(
+                /^data:image\/jpeg;base64,/,
+                ""
+            );
+
+
+        if(
+            !base64 ||
+            base64.length < 100
+        ){
+
+            throw new Error(
+                "Base64 generate नहीं हुई"
+            );
+        }
+
+
+        /*
+         * जिस card पर click हुआ
+         * उसका text भी मिलेगा।
+         */
+
+        var text =
+            clickedPoster
+            .getAttribute("data-text");
+
+
+        /*
+         * Niotron JSON
+         */
+
+        var data = {
+
+            ACTION:
+                "SHARE_POSTER",
+
+            IMAGE:
+                base64,
+
+            TEXT:
+                text || "सत्यानुसरण — श्री श्री ठाकुर"
+
+        };
+
+
+        /*
+         * Niotron को भेजें
+         */
+
+        var sent =
+            sendToNiotron(data);
+
+
+        if(!sent){
+
+            throw new Error(
+                "Niotron WebView bridge नहीं मिला"
+            );
+        }
+
+
+        showStatus(
+            "✅ Poster तैयार है"
+        );
+
+
+    }
+    catch(error){
+
+        console.log(
+            "Poster Error:",
+            error
+        );
+
+
+        sendToNiotron({
+
+            ACTION:
+                "ERROR",
+
+            IMAGE:
+                "",
+
+            TEXT:
+                String(error)
+
+        });
+
+
+        showStatus(
+            "❌ Poster बनाने में समस्या"
+        );
+    }
+
+}
+
+</script>
+
+</body>
+</html>
